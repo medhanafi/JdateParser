@@ -7,9 +7,8 @@ public abstract class AbstractService {
 
 	 private final Logger logger;
 
-	      /**
-	     * Constructor
-	     *
+	    /**
+	     * Logger constructor
 	     */
 	    public AbstractService() {
 	        this.logger = LoggerFactory.getLogger(this.getClass());

@@ -24,9 +24,8 @@ import com.comoressoft.jdate.exceptions.JDException;
 
 /**
  * 
- * (Description)
+ * Load the necessary resources used by parsing process
  *
- * @since 29 août 2016
  * @author MHA14633
  */
 public class JDLoader extends AbstractService implements Serializable {
@@ -44,29 +43,29 @@ public class JDLoader extends AbstractService implements Serializable {
 	 *
 	 */
 	public JDLoader() {
-		init();
-	}
-
-	private void init() {
 		this.dateFormats.addAll(this.load());
-
 	}
 
+	/**
+	 * Load external resources
+	 */
 	public List<String> load() {
 		List<String> list = new ArrayList<>();
 		this.uri = this.getClass().getClassLoader().getResource(JDConstant.DATA_PATH);
 		try (BufferedReader br = Files.newBufferedReader(Paths.get(this.uri.getPath()))) {
 			list = br.lines().collect(Collectors.toList());
 		} catch (IOException e) {
-			this.getLogger().warn("File not found. Path : {} {}",
-					uri != null ? uri.getPath() : "not found", e);
-			new JDException(
-					String.format("File not found Path: %s", uri != null ? uri.getPath() : "not found"),
-					e);
+			this.getLogger().warn("File not found. Path : {} {}", uri != null ? uri.getPath() : "not found", e);
+			new JDException(String.format("File not found Path: %s", uri != null ? uri.getPath() : "not found"), e);
 		}
 		return list;
 	}
 
+	/**
+	 * Format external resources
+	 * 
+	 * @return List of triple element (Date format, regex pettern, Locale)
+	 */
 	public List<Triple<String, Pattern, Locale>> getRessources() {
 		List<Triple<String, Pattern, Locale>> listRessource = new ArrayList<>();
 		boolean errorFormat = false;
@@ -79,21 +78,33 @@ public class JDLoader extends AbstractService implements Serializable {
 			}
 		}
 		if (errorFormat) {
-			LOGGER.error("Error: Date format, Regex and Local format should separated by '=' ");
+			LOGGER.error("Error: Date format, Regex and Local format should separated by '"+JDConstant.SPLIT_CHAR+"'");
 		}
 
 		return listRessource;
 	}
 
+	/**
+	 * Get Local from ISO code
+	 * 
+	 * @param countryCode
+	 * @return Locale
+	 */
 	public Locale getLocal(final String countryCode) {
 		if (!Objects.isNull(countryCode))
 			return Locale.forLanguageTag(getISOCode(countryCode));
 		return Locale.getDefault();
 	}
 
+	/**
+	 * Get ISO code from country code
+	 * 
+	 * @param countryCode
+	 * @return
+	 */
 	private String getISOCode(String countryCode) {
-		if(countryCode.contains("_")) {
-			return countryCode.substring(countryCode.indexOf("_")+1).toLowerCase();
+		if (countryCode.contains("_")) {
+			return countryCode.substring(countryCode.indexOf("_") + 1).toLowerCase();
 		}
 		return countryCode;
 	}
