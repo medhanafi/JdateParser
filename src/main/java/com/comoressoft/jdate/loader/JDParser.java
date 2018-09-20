@@ -39,20 +39,20 @@ public class JDParser implements Serializable {
 
 	}
 
-	
 	public static Date parse(String inputDate) {
 		Date outputDate = null;
-		int i = 0;
-		do {
-			Triple<String, Pattern, Locale> ressource = resources.get(i++);
+		for(Triple<String, Pattern, Locale> ressource:resources) {
 			Matcher matcher = ressource.getMiddle().matcher(inputDate);
 			if (matcher.find()) {
-				parseDate(outputDate, matcher.group(), new DateFormatter(ressource.getLeft()),
-						ressource.getRight());
+				outputDate=parseDate(outputDate, matcher.group(), new DateFormatter(ressource.getLeft()), ressource.getRight());
 			}
-		} while (outputDate != null);
+			
+			if(outputDate != null)
+				return outputDate;
+		}
+		return outputDate;  
 
-		return outputDate;
+		
 	}
 
 	private static Date parseDate(Date outputDate, final String inputDate, final DateFormatter simpleDateFormat,
@@ -62,7 +62,7 @@ public class JDParser implements Serializable {
 				outputDate = simpleDateFormat.parse(inputDate, locale);
 			} catch (ParseException e) {
 				LOGGER.error("Unparseable Date from {} to {} using Local " + e + locale, inputDate, outputDate);
-				new JDException(String.format("Unparseable Date %s using Locale %s "+ e, inputDate, locale));
+				new JDException(String.format("Unparseable Date %s using Locale %s " + e, inputDate, locale));
 			}
 		}
 
