@@ -71,57 +71,5 @@ public class JDParser implements Serializable {
 		return outputDate;
 	}
 
-	/**
-	 * Calculates the number of (TimeUnit) between two dates
-	 * 
-	 * @param timeUnit  The time unit (NANOSECONDS aren't supported)
-	 * @param startDate The beginning date
-	 * @param endDate   The ending date
-	 * @return number of (TimeUnit) between startDate and endDate
-	 */
-	public long between(final TimeUnit timeUnit, final Date startDate, final Date endDate) {
-		final Calendar startCalendar = Calendar.getInstance();
-		final Calendar endCalendar = Calendar.getInstance();
-		startCalendar.setTime(startDate);
-		endCalendar.setTime(endDate);
-
-		return between(timeUnit, startCalendar, endCalendar);
-	}
-
-	/**
-	 * Calculates the number of (TimeUnit) between two dates
-	 * 
-	 * @param timeUnit  The time unit (NANOSECONDS aren't supported)
-	 * @param startDate The beginning date
-	 * @param endDate   The ending date
-	 * @return number of (TimeUnit) between startDate and endDate
-	 */
-	public long between(final TimeUnit timeUnit, final Calendar startDate, final Calendar endDate) {
-		final long start = startDate.getTimeInMillis();
-		final long end = endDate.getTimeInMillis();
-		long diff = end - start;
-
-		boolean revert = false;
-		if (diff < 0) {
-			revert = true;
-			diff = Math.abs(diff);
-		}
-
-		if (TimeUnit.DAYS.equals(timeUnit)) {
-			diff = TimeUnit.MILLISECONDS.toDays(diff);
-		} else if (TimeUnit.HOURS.equals(timeUnit)) {
-			diff = TimeUnit.MILLISECONDS.toHours(diff);
-		} else if (TimeUnit.MINUTES.equals(timeUnit)) {
-			diff = TimeUnit.MILLISECONDS.toMinutes(diff);
-		} else if (TimeUnit.SECONDS.equals(timeUnit)) {
-			diff = TimeUnit.MILLISECONDS.toSeconds(diff);
-		}
-
-		if (revert) {
-			diff = -diff;
-		}
-
-		return diff;
-	}
 
 }
