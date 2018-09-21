@@ -2,6 +2,7 @@ package com.comoressoft.jdate.loader;
 
 import java.io.Serializable;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -10,10 +11,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.text.DateFormatter;
+
 import org.apache.commons.lang3.tuple.Triple;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.format.datetime.DateFormatter;
 
 import com.comoressoft.jdate.exceptions.JDException;
 
@@ -44,7 +46,7 @@ public class JDParser implements Serializable {
 		for(Triple<String, Pattern, Locale> ressource:resources) {
 			Matcher matcher = ressource.getMiddle().matcher(inputDate);
 			if (matcher.find()) {
-				outputDate=parseDate(outputDate, matcher.group(), new DateFormatter(ressource.getLeft()), ressource.getRight());
+				outputDate=parseDate(outputDate, matcher.group(), new SimpleDateFormat(ressource.getLeft()), ressource.getRight());
 			}
 			
 			if(outputDate != null)
@@ -55,13 +57,13 @@ public class JDParser implements Serializable {
 		
 	}
 
-	private static Date parseDate(Date outputDate, final String inputDate, final DateFormatter simpleDateFormat,
+	private static Date parseDate(Date outputDate, final String inputDate, final SimpleDateFormat simpleDateFormat,
 			final Locale locale) {
 		if (outputDate == null) {
 			try {
-				outputDate = simpleDateFormat.parse(inputDate, locale);
+				outputDate = simpleDateFormat.parse(inputDate);
 			} catch (ParseException e) {
-				LOGGER.error("Unparseable Date from {} to {} using Local " + e + locale, inputDate, outputDate);
+				LOGGER.error("Unparseable Date {} using Local {} " , inputDate,locale);
 				new JDException(String.format("Unparseable Date %s using Locale %s " + e, inputDate, locale));
 			}
 		}
