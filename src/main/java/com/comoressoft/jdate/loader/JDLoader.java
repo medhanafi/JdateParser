@@ -50,18 +50,23 @@ public class JDLoader extends AbstractService implements Serializable {
 	 * Load external resources
 	 */
 	public List<String> load() {
-		
+
 		this.uri = this.getClass().getClassLoader().getResource(JDConstant.DATA_PATH);
-		return this.getData(this.uri);
+		try {
+			return JDLoader.getData(this.uri.getPath());
+		} catch (JDException e) {
+			LOGGER.warn("Error ", e);
+		}
+		return dateFormats;
 	}
 
-	public List<String> getData(URL uri) {
+	public static List<String> getData(String path) throws JDException {
 		List<String> list = new ArrayList<>();
-		try (BufferedReader br = Files.newBufferedReader(Paths.get(uri.getPath()))) {
+		try (BufferedReader br = Files.newBufferedReader(Paths.get(path))) {
 			list = br.lines().collect(Collectors.toList());
 		} catch (IOException e) {
-			this.getLogger().warn("File not found. Path : {} {}", uri != null ? uri.getPath() : "not found", e);
-			new JDException(String.format("File not found Path: %s", uri != null ? uri.getPath() : "not found"), e);
+			LOGGER.warn("File not found. Path : {} {}", path != null ? path : "not found", e);
+			throw new JDException(String.format("File not found Path: %s", path != null ? path : "not found"), e);
 		}
 		return list;
 	}
@@ -83,7 +88,8 @@ public class JDLoader extends AbstractService implements Serializable {
 			}
 		}
 		if (errorFormat) {
-			LOGGER.error("Error: Date format, Regex and Local format should separated by '"+JDConstant.SPLIT_CHAR+"'");
+			LOGGER.error(
+					"Error: Date format, Regex and Local format should separated by '" + JDConstant.SPLIT_CHAR + "'");
 		}
 
 		return listRessource;

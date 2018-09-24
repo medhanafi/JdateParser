@@ -10,19 +10,17 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.comoressoft.jdate.AbstractService;
+import com.comoressoft.jdate.exceptions.JDException;
 import com.comoressoft.jdate.loader.JDBuilder;
 import com.comoressoft.jdate.loader.JDLoader;
 import com.comoressoft.jdate.loader.JDParser;
 
 public class JDateTest extends AbstractService {
 
-	@Before
-	public void setUp() throws Exception {
-		JDBuilder.build();
-	}
-
+	
 	@Test
 	public void testParse() {
+		JDBuilder.build();
 		Assert.assertEquals("Mon Mar 22 05:06:00 CET 1999", JDParser.parse("03-22-99 5:06 AM").toString());
 		Assert.assertEquals("Mon Mar 22 00:00:00 CET 1999", JDParser.parse("19990322+0100").toString());
 		Assert.assertEquals("Mon Mar 22 00:00:00 CET 1999", JDParser.parse("19990322").toString());
@@ -101,10 +99,9 @@ public class JDateTest extends AbstractService {
 		Assert.assertNotNull(new JDBuilder());
 	}
 
-	@Test(expected = IOException.class)
-	public void testIOException() throws MalformedURLException {
-		JDLoader jl = new JDLoader();
-		jl.getData(new URL("file_data.kom"));
+	@Test(expected = JDException.class)
+	public void testIOException() throws JDException {
+		JDLoader.getData("file_data.kom");
 	}
 
 }
