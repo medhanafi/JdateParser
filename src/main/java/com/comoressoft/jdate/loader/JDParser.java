@@ -32,7 +32,7 @@ public class JDParser implements Serializable {
 	private JDLoader dateLoader;
 	private static List<Triple<String, Pattern, Locale>> resources;
 
-	public JDParser() {
+	public JDParser() throws JDException {
 		this.dateLoader = new JDLoader();
 		resources = this.dateLoader.getRessources();
 

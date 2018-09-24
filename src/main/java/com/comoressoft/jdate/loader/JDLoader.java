@@ -40,24 +40,23 @@ public class JDLoader extends AbstractService implements Serializable {
 
 	/**
 	 * Constructor
+	 * @throws JDException 
 	 *
 	 */
-	public JDLoader() {
+	public JDLoader() throws JDException {
 		this.dateFormats.addAll(this.load());
 	}
 
 	/**
 	 * Load external resources
+	 * @throws JDException 
 	 */
-	public List<String> load() {
+	public List<String> load() throws JDException {
 
 		this.uri = this.getClass().getClassLoader().getResource(JDConstant.DATA_PATH);
-		try {
+	
 			return JDLoader.getData(this.uri.getPath());
-		} catch (JDException e) {
-			LOGGER.warn("Error ", e);
-		}
-		return dateFormats;
+		
 	}
 
 	public static List<String> getData(String path) throws JDException {
