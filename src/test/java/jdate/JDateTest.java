@@ -1,12 +1,6 @@
 package jdate;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
-
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import com.comoressoft.jdate.AbstractService;
@@ -19,7 +13,7 @@ public class JDateTest extends AbstractService {
 
 	
 	@Test
-	public void testParse() {
+	public void testParse() throws JDException {
 		JDBuilder.build();
 		Assert.assertEquals("Mon Mar 22 05:06:00 CET 1999", JDParser.parse("03-22-99 5:06 AM").toString());
 		Assert.assertEquals("Mon Mar 22 00:00:00 CET 1999", JDParser.parse("19990322+0100").toString());
