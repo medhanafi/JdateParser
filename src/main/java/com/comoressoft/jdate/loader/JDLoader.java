@@ -50,9 +50,14 @@ public class JDLoader extends AbstractService implements Serializable {
 	 * Load external resources
 	 */
 	public List<String> load() {
-		List<String> list = new ArrayList<>();
+		
 		this.uri = this.getClass().getClassLoader().getResource(JDConstant.DATA_PATH);
-		try (BufferedReader br = Files.newBufferedReader(Paths.get(this.uri.getPath()))) {
+		return this.getData(this.uri);
+	}
+
+	public List<String> getData(URL uri) {
+		List<String> list = new ArrayList<>();
+		try (BufferedReader br = Files.newBufferedReader(Paths.get(uri.getPath()))) {
 			list = br.lines().collect(Collectors.toList());
 		} catch (IOException e) {
 			this.getLogger().warn("File not found. Path : {} {}", uri != null ? uri.getPath() : "not found", e);
