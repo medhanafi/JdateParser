@@ -7,6 +7,25 @@
 	<version>0.0.1-SNAPSHOT</version>
 
 
+	<name>JDate</name>
+	<description>JDate Parser</description>
+	<inceptionYear>2019</inceptionYear>
+	<url>https://github.com/medhanafi/jdate.git</url>
+
+	<organization>
+		<name>ComoresSoft</name>
+		<url>https://comoressoft.com</url>
+	</organization>
+
+	<developers>
+		<developer>
+			<id>Medhanafi</id>
+			<name>Mohamed Hanafi</name>
+			<email>m.hanafi@comoressoft.com</email>
+		</developer>
+	</developers>
+
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -86,6 +105,8 @@
 					</execution>
 				</executions>
 			</plugin>
+
+
 		</plugins>
 	</build>
 

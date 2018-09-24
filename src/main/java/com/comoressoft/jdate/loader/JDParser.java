@@ -3,15 +3,11 @@ package com.comoressoft.jdate.loader;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.swing.text.DateFormatter;
 
 import org.apache.commons.lang3.tuple.Triple;
 import org.slf4j.Logger;
