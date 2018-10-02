@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.KeyStore;
+import java.security.KeyStore.Entry;
+import java.security.KeyStore.ProtectionParameter;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -86,4 +88,9 @@ public class JavaKeyStore {
     KeyStore getKeyStore() {
         return this.keyStore;
     }
+
+	public void setEntry(String alias, Entry entry, ProtectionParameter protectionParameter) throws KeyStoreException {
+		 keyStore.setEntry(alias, entry, protectionParameter);
+		
+	}
 }
