@@ -32,5 +32,8 @@ hs_err_pid*
 *.project
 .settings
 .pmd
+.sql
+.xml
+.jks
 .checkstyle
 target/
